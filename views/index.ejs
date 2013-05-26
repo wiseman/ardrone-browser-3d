@@ -14,10 +14,13 @@
 
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/js/jquery.fullscreen-min.js"></script>
+    <script type="text/javascript" src="/js/jquery.format-1.2.min.js"></script>
     <script type="text/javascript" src="/js/polyfills.js"></script>
 
     <script type="text/javascript" src="/js/drone.js"></script>
   </head>
+  <body>
+  <div id="telemetry"></div>
 
     <script>
 $(function() {
@@ -40,6 +43,16 @@ $(function() {
     return arrow;
   }
 
+  function updateTelemetry(navdata) {
+    var f = $.format.number;
+    var fs = '##.###';
+    var r = navdata.demo.drone.camera.rotation;
+    $('#telemetry').html(
+      '<pre>' +
+        f(r.m11, fs) + ' ' + f(r.m12, fs) + ' ' + f(r.m13, fs) + '\n' +
+        f(r.m21, fs) + ' ' + f(r.m22, fs) + ' ' + f(r.m23, fs) + '\n' +
+        f(r.m31, fs) + ' ' + f(r.m32, fs) + ' ' + f(r.m33, fs));
+  }
 
   function init() {
     m = new THREE.Matrix4();
@@ -54,8 +67,18 @@ $(function() {
     theScene = new THREE.Scene();
     theScene.add(theCamera);
 
-    theDrone = new Drone(navdata);
+    theDrone = new Drone();
     theScene.add(theDrone);
+
+    // Connect to websocket.
+    var hostname = document.location.hostname ? document.location.hostname : "localhost";
+    droneSocket = io.connect('http://' + hostname);
+    droneSocket.on('navdata', function(navdata) {
+      if (!jQuery.isEmptyObject(navdata)) {
+        theDrone.updateState(navdata);
+        updateTelemetry(navdata);
+      }
+    });
 
     theScene.add(new THREE.AmbientLight(0x333333));
     var directionalLight = new THREE.DirectionalLight(0xaaaaaa);
@@ -99,7 +122,6 @@ $(function() {
   function animate() {
     requestAnimationFrame(animate);
     theControls.update();
-    theDrone.step();
     theRenderer.render(theScene, theCamera);
   }
 
