@@ -15,6 +15,8 @@
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/js/jquery.fullscreen-min.js"></script>
     <script type="text/javascript" src="/js/polyfills.js"></script>
+
+    <script type="text/javascript" src="/js/drone.js"></script>
   </head>
 
     <script>
@@ -24,66 +26,6 @@ $(function() {
   var theRenderer;
   var theControls;
   var theDrone;
-
-  var Drone = function(navdata) {
-    THREE.Object3D.call(this);
-    this.lowVel = 0;
-    this.navdata = navdata;1
-    this.stepNum = 0;
-
-    var material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
-    });
-    //this.add(new THREE.AxisHelper(100));
-    var loader = new THREE.ColladaLoader();
-    var self = this;
-    loader.load('assets/ar-drone-2.dae', function(result) {
-      d1 = new THREE.Object3D();
-      d1.add(result.scene);
-      d1.position.y = -3;
-      d1.position.x = 2;
-      d2 = new THREE.Object3D();
-      d2.add(d1);
-      //d2.rotation.z = Math.PI / 2;
-      self.add(d2);
-    });
-
-  }
-  Drone.prototype = Object.create(THREE.Object3D.prototype);
-
-  Drone.prototype.step = function() {
-    var state = this.navdata[Math.floor(this.stepNum / 3)];
-    //console.log(this.stepNum);
-    this.stepNum = (this.stepNum + 1) % (this.navdata.length * 3);
-    var r = state.demo.drone.camera.rotation;
-    var t = state.demo.drone.camera.translation;
-    //console.log(r);
-    //console.log(this.stepNum / 100.0);
-    var m = new THREE.Matrix4(r.m11, r.m12, r.m13, 0,
-                              r.m21, r.m22, r.m23, 0,
-                              r.m31, r.m32, r.m33, 0,
-                              0, 0, 0, 1)
-    //this.matrix.extractRotation(m);
-    this.matrix = m;
-    //this.matrix.translate(t.x, t.y, t.z);
-    //this.matrix.scale(4);
-    //this.matrix.makeRotationX(this.stepNum / 10.0);
-    this.matrixAutoUpdate = false;
-    this.updateMatrixWorld(true);
-    //console.log(this.matrix);
-    //this.updateMatrix();
-    //console.log(this.matrix);
-    //this.matrix.setPosition(new THREE.Vector3(0, 0, 0));
-    
-  };
-
-  Drone.prototype.moveTo = function(x, y, z) {
-    this.position.x = x;
-    this.position.y = y;
-    this.position.z = z;
-    this.lowVel = 0;
-  }
-
 
   function vectorArrow(x, y, z, v) {
     if (v.magnitude() < 0.0001) {
@@ -100,6 +42,9 @@ $(function() {
 
 
   function init() {
+    m = new THREE.Matrix4();
+    m.makeScale(1, 1, -1);
+    console.log(m);
     theCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
     theCamera.position.x = 0;
     theCamera.position.y = 0;
@@ -113,12 +58,18 @@ $(function() {
     theScene.add(theDrone);
 
     theScene.add(new THREE.AmbientLight(0x333333));
-    var directionalLight = new THREE.DirectionalLight(/*Math.random() * 0xffffff*/0xeeeeee );
-    directionalLight.position.x = 50;
-    directionalLight.position.y = 50;
+    var directionalLight = new THREE.DirectionalLight(0xaaaaaa);
+    directionalLight.position.x = 500;
+    directionalLight.position.y = 200;
     directionalLight.position.z = 500;
     directionalLight.position.normalize();
-    theScene.add( directionalLight );
+    theScene.add(directionalLight);
+    directionalLight = new THREE.DirectionalLight(0xaaaaaa);
+    directionalLight.position.x = -500;
+    directionalLight.position.y = -200;
+    directionalLight.position.z = 500;
+    directionalLight.position.normalize();
+    theScene.add(directionalLight);
 
 
     theRenderer = new THREE.WebGLRenderer({
