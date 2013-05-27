@@ -1,18 +1,20 @@
 {
-  "name": "ardrone-three",
+  "name": "ardrone-browser-3d",
   "version": "0.1.0",
-  "description": "3D display of the AR.Drone.",
+  "description": "3D display of the AR.Drone in a browser.",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:wiseman/ardrone-three.git"
+    "url": "git@github.com:wiseman/ardrone-3d.git"
   },
   "keywords": [
     "drone",
     "ardrone",
     "nodecopter",
     "parrot",
-    "browser"
+    "browser",
+    "3D",
+    "three.js"
   ],
   "dependencies": {
     "ar-drone": "0.0.5",

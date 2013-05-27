@@ -1,5 +1,5 @@
-ardrone-three
-=============
+ardrone-browser-3d
+==================
 
 This is an in-browser 3D model of an AR.DRone that shows telemetry
 live using three.js.
