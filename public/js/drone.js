@@ -1,11 +1,6 @@
-var Drone = function() {
+var Drone = function(model) {
   THREE.Object3D.call(this);
-  var loader = new THREE.ColladaLoader();
-  var self = this;
-  loader.load('assets/ar-drone-2.dae', function(result) {
-    result.scene.rotation = new THREE.Vector3(-Math.PI / 2, 0, -Math.PI / 2);
-    self.add(result.scene);
-  });
+  this.add(model);
 }
 Drone.prototype = Object.create(THREE.Object3D.prototype);
 

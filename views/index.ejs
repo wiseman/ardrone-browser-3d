@@ -21,6 +21,7 @@
   </head>
   <body>
   <div id="telemetry"></div>
+  <p id="status">Loading model...</p>
   <input type="button" value="Play" id="playbutton">
     <script>
 $(function() {
@@ -54,8 +55,13 @@ $(function() {
     theScene = new THREE.Scene();
     theScene.add(theCamera);
 
-    theDrone = new Drone();
-    theScene.add(theDrone);
+    var loader = new THREE.ColladaLoader();
+    loader.load('assets/ar-drone-2.dae', function(result) {
+      result.scene.rotation = new THREE.Vector3(-Math.PI / 2, 0, -Math.PI / 2);
+      theDrone = new Drone(result.scene);
+      theScene.add(theDrone);
+      $('#status').html('');
+    });
 
     // Connect to websocket.
     var hostname = document.location.hostname ? document.location.hostname : "localhost";
@@ -63,7 +69,9 @@ $(function() {
     droneSocket.on('navdata', function(navdata) {
       // Don't listen to the drone telemetry if we're in playback
       // mode.
-      if (!jQuery.isEmptyObject(navdata) && playbackFrameNum !== null) {
+      if (!jQuery.isEmptyObject(navdata) &&
+          playbackFrameNum === null &&
+          theDrone) {
         theDrone.updateState(navdata);
         updateTelemetry(navdata);
       }
