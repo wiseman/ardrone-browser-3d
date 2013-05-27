@@ -44,14 +44,7 @@ $(function() {
   }
 
   function updateTelemetry(navdata) {
-    var f = $.format.number;
-    var fs = '##.###';
-    var r = navdata.demo.drone.camera.rotation;
-    $('#telemetry').html(
-      '<pre>' +
-        f(r.m11, fs) + ' ' + f(r.m12, fs) + ' ' + f(r.m13, fs) + '\n' +
-        f(r.m21, fs) + ' ' + f(r.m22, fs) + ' ' + f(r.m23, fs) + '\n' +
-        f(r.m31, fs) + ' ' + f(r.m32, fs) + ' ' + f(r.m33, fs));
+    // Show telemetry on page if desired.
   }
 
   function init() {
