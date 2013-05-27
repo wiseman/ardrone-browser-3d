@@ -23,7 +23,8 @@ Then connect to your drone's wifi and start the app:
 node app.js
 ```
 
-Then connect to http://localhost:3000/.
+Now point your browser at http://localhost:3000/, pick up your drone
+and make it dance.
 
 
 ## Just a simple hack
