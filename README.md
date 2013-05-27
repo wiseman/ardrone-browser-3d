@@ -43,7 +43,7 @@ but this entire project could be a plugin for `ardrone-webflight`.
 rotations from the AR.Drone frame of reference/coordinate system into
 the three.js coordinate system:
 
-```
+```javascript
 var Drone = function() {
   THREE.Object3D.call(this);
   var loader = new THREE.ColladaLoader();
