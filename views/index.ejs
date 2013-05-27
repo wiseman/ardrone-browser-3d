@@ -21,7 +21,7 @@
   </head>
   <body>
   <div id="telemetry"></div>
-
+  <input type="button" value="Play" id="playbutton">
     <script>
 $(function() {
   var theCamera;
@@ -30,28 +30,22 @@ $(function() {
   var theControls;
   var theDrone;
 
-  function vectorArrow(x, y, z, v) {
-    if (v.magnitude() < 0.0001) {
-      return null;
-    }
-    var v = v.copy();
-    var arrow = new THREE.ArrowHelper(
-      new THREE.Vector3(v.x, v.y, v.z),
-      new THREE.Vector3(x, y, z),
-      v.magnitude() * 150,
-      0x44444);
-    return arrow;
-  }
+  var playbackFrameNum = null;
+
 
   function updateTelemetry(navdata) {
     // Show telemetry on page if desired.
   }
 
   function init() {
+    $("#playbutton").click(function() {
+      playbackFrameNum = 0;
+    });
+
     m = new THREE.Matrix4();
     m.makeScale(1, 1, -1);
     console.log(m);
-    theCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+    theCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     theCamera.position.x = 0;
     theCamera.position.y = 0;
     theCamera.position.z = 400;
@@ -67,7 +61,9 @@ $(function() {
     var hostname = document.location.hostname ? document.location.hostname : "localhost";
     droneSocket = io.connect('http://' + hostname);
     droneSocket.on('navdata', function(navdata) {
-      if (!jQuery.isEmptyObject(navdata)) {
+      // Don't listen to the drone telemetry if we're in playback
+      // mode.
+      if (!jQuery.isEmptyObject(navdata) && playbackFrameNum !== null) {
         theDrone.updateState(navdata);
         updateTelemetry(navdata);
       }
@@ -113,7 +109,18 @@ $(function() {
 
 
   function animate() {
-    requestAnimationFrame(animate);
+    if (playbackFrameNum !== null) {
+      if (playbackFrameNum >= navdatas.length) {
+        playbackFrameNum = null;
+      } else {
+        theDrone.updateState(navdatas[playbackFrameNum]);
+        playbackFrameNum += 1;
+      }
+      window.setTimeout(function() {requestAnimationFrame(animate);},
+                        50);
+    } else {
+      requestAnimationFrame(animate);
+    }
     theControls.update();
     theRenderer.render(theScene, theCamera);
   }
