@@ -4,9 +4,9 @@ ardrone-browser-3d
 This is an in-browser 3D model of an AR.DRone that shows telemetry
 live using three.js.
 
-See a demo at http://wiseman.github.io/ardrone-three/
+See a demo at http://wiseman.github.io/ardrone-browser-3d/
 
-![Screenshot](ardrone-three-screenshot.png "Screenshot")
+![Screenshot](ardrone-browser-3d-screenshot.png "Screenshot")
 
 
 ## Running
