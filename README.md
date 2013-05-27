@@ -26,6 +26,10 @@ node app.js
 Now point your browser at http://localhost:3000/, pick up your drone
 and make it dance.
 
+Alternately, if you don't have a drone handy, you can press the "Play"
+button on the page and watch the playback of some telemetry data I
+recorded with my drone.
+
 
 ## Just a simple hack
 
