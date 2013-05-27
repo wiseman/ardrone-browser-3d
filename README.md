@@ -6,17 +6,40 @@ live using three.js.
 
 See a demo at http://wiseman.github.io/ardrone-three/
 
+![Screenshot](ardrone-three-screenshot.png "Screenshot")
+
+
+## Running
+
+To run it with your drone, first do
+
+```
+npm install
+```
+
+Then connect to your drone's wifi and start the app:
+
+```
+node app.js
+```
+
+Then connect to http://localhost:3000/.
+
+
+## Just a simple hack
+
 This is just a simple, ugly hack:
 
 1. Take the ["ar drone 2.0 bleu" Sketchup
 model](http://sketchup.google.com/3dwarehouse/details?mid=fb442457163fcdbed04e3327b51cff5c)
 by tototech and tweak it a little.
 
-2. Modify eschnou's
-[ardrone-webflight](https://github.com/eschnou/ardrone-webflight) a
-little.
+2. Start with eschnou's
+[ardrone-webflight](https://github.com/eschnou/ardrone-webflight) and
+modify it a bit.  Really I just use it to get the navdata websocket,
+but this entire project could be a plugin for `ardrone-webflight`.
 
-3. Create a subclass of THREE.Object3D that knows how to transform
+3. Create a subclass of `THREE.Object3D` that knows how to transform
 rotations from the AR.Drone frame of reference/coordinate system into
 the three.js coordinate system:
 
