@@ -12,7 +12,6 @@
     <script src="js/three.js/ColladaLoader.js"></script>
     <script src="js/jquery.min.js"></script>
 
-    <script type="text/javascript" src="socket.io/socket.io.js"></script>
     <script type="text/javascript" src="js/jquery.fullscreen-min.js"></script>
     <script type="text/javascript" src="js/jquery.format-1.2.min.js"></script>
     <script type="text/javascript" src="js/polyfills.js"></script>
@@ -56,18 +55,6 @@ $(function() {
 
     theDrone = new Drone();
     theScene.add(theDrone);
-
-    // Connect to websocket.
-    var hostname = document.location.hostname ? document.location.hostname : "localhost";
-    droneSocket = io.connect('http://' + hostname);
-    droneSocket.on('navdata', function(navdata) {
-      // Don't listen to the drone telemetry if we're in playback
-      // mode.
-      if (!jQuery.isEmptyObject(navdata) && playbackFrameNum !== null) {
-        theDrone.updateState(navdata);
-        updateTelemetry(navdata);
-      }
-    });
 
     theScene.add(new THREE.AmbientLight(0x333333));
     var directionalLight = new THREE.DirectionalLight(0xaaaaaa);
