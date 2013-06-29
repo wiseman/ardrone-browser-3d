@@ -8,13 +8,17 @@
     "url": "git@github.com:wiseman/ardrone-3d.git"
   },
   "keywords": [
+    "3D",
+    "AR.Drone",
+    "ardrone-webflight",
+    "browser",
+    "diy drone",
     "drone",
-    "ardrone",
     "nodecopter",
     "parrot",
-    "browser",
-    "3D",
-    "three.js"
+    "plugin",
+    "three.js",
+    "webflight"
   ],
   "dependencies": {
     "ar-drone": "0.0.5",
