@@ -1,6 +1,6 @@
 {
   "name": "ardrone-browser-3d",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "3D display of the AR.Drone in a browser.",
   "main": "app.js",
   "repository": {
