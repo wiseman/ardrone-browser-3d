@@ -6,7 +6,7 @@ live using three.js.
 
 See a demo at http://wiseman.github.io/ardrone-browser-3d/
 
-![Screenshot](ardrone-browser-3d-screenshot.png "Screenshot")
+![Screenshot](https://raw.github.com/wiseman/ardrone-browser-3d/master/ardrone-browser-3d-screenshot.png "Screenshot")
 
 
 ## Running
